@@ -109,8 +109,15 @@
 - These are not real nodes, but virtual representations within the vCluster to simulate scheduling and topology.
 
 
+### Demo
+
+For the demo, I utilized a post by Fabian Brundke as a reference -> [Demo.MD](./Demo.MD)
+
+
 ### References
 
 (1*) https://www.vcluster.com/
 
 (2*) [Workshop 1: Seamless Kubernetes Multi-Tenancy with vCluster and a Shared Platform Stack](https://www.youtube.com/live/HLCSbbQ_mQ8?si=x-vVRhSHFlHFQSSn&t=28)
+
+(3*) [Solving Kubernetes Multi-tenancy Challenges with vCluster - By Fabian Brundke](https://liquidreply.net/news/solving-kubernetes-multi-tenancy-challenges-with-vcluster)
