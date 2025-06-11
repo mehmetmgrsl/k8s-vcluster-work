@@ -1,3 +1,57 @@
+### What is the Problem (2*)
+
+- ![What is the Problem](vcluster-02.png) (Diagram from 2*) 
+  - Cluster per team
+  - Cluster per environment
+  - Duplication of resources
+
+  - COST? , Maintanence? 
+  - SO MANY CLUSTERS
+
+- Each team uses its own dedicated Kubernetes cluster, leading to high costs, duplicated tools like Argo CD, and increased maintenance effort. 
+- Inefficiency of managing too many separate clusters for teams or environments.  
+
+### How to do multi Tanency? (2*)
+
+- Workload Isolation
+  - Keep each tenant’s applications separate so they can’t affect or access each other.
+- Tenant Autonomy
+  - Let tenants manage their own environment independently.
+- Fair Use of Resources 
+  - Prevent one tenant from using too much CPU, memory, etc.
+
+### What is the Shared platform stack (2*)
+
+- ![Shared platform](vcluster-03.png) (Diagram from 2*) 
+  - The Shared Platform Stack is a set of common services—such as Cert Manager, Ingress Controller, and core Kubernetes components—running on the host cluster and used by all isolated environment.
+
+
+### Why Namespaces are not enough for multi-tenancy?
+
+- Namespaces can provide soft isolation, but they’re not strong enough for secure, scalable multi-tenancy.
+
+1. **Shared API Server**
+- All tenants share the same Kubernetes API server, so RBAC misconfigurations can expose resources across tenants.
+
+ 2. **No Version Control**
+- Tenants cannot use their own Kubernetes version (e.g., K8s 1.25 vs 1.27).
+- Everyone is tied to the host cluster’s control plane version.
+
+ 3. **Global CRDs (Custom Resource Definitions)**
+- If one tenant installs a CRD, it affects the whole cluster.
+- Risk of conflict or version mismatch.
+
+4. **Security Limitations**
+- Even with NetworkPolicies and PSS (Pod Security Standards), a misconfigured privileged pod or escalation can affect other tenants.
+
+5. **Limited Tenant Autonomy**
+- Tenants can’t:
+  - Create cluster-wide roles or bindings
+  - Run admission controllers
+    - An admission controller is a plugin that intercepts requests to the Kubernetes API server before they are saved to etcd (i.e., before the object is created or modified).
+    - It can accept, reject, or modify those requests.
+  - Customize scheduler behavior
+
 ### Why vCluster?
 
 - To efficiently run multiple isolated Kubernetes environments on a single cluster, reducing cost and operational complexity
@@ -9,7 +63,7 @@
 
 ### Architecture of vCluster
 
-- ![Architecture of vCluster)](vcluster-01.png) (Diagram from 1*) 
+- ![Architecture of vCluster](vcluster-01.png) (Diagram from 1*) 
 
 - A user uses **kubectl** to interact with the **vCluster control plane**, **not the physical host cluster** directly.
 
@@ -58,3 +112,5 @@
 ### References
 
 (1*) https://www.vcluster.com/
+
+(2*) [Workshop 1: Seamless Kubernetes Multi-Tenancy with vCluster and a Shared Platform Stack](https://www.youtube.com/live/HLCSbbQ_mQ8?si=x-vVRhSHFlHFQSSn&t=28)
